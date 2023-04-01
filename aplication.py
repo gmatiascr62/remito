@@ -50,7 +50,7 @@ class Registro(FlaskForm):
     dia = StringField('Dia', render_kw={'style': 'font-size: 2rem', 'value':dia}, validators=[DataRequired()])
     mes = StringField('Mes',render_kw={'style': 'font-size: 2rem','value':mes}, validators=[DataRequired()])
     anio = StringField('Año', render_kw={'style': 'font-size: 2rem', 'value':anio_s}, validators=[DataRequired()])
-    orden = StringField('Orden de compra', render_kw={'style': 'font-size: 2rem'}, validators=[DataRequired()])
+    orden = StringField('Orden de compra', render_kw={'style': 'font-size: 2rem'})
     cantidad_uno = StringField('Cantidad', render_kw={'style': 'font-size: 2rem'}, validators=[DataRequired()])
     desc_uno = StringField('Descripcion', render_kw={'style': 'font-size: 2rem'}, validators=[DataRequired()])
     cantidad_dos = StringField('Cantidad', render_kw={'style': 'font-size: 2rem'})
@@ -94,6 +94,6 @@ def index():
 def remito():
     return render_template('foto.html')
 
-if __name__ == "__main__":
-    app.run(debug=True)
+#if __name__ == "__main__":
+#    app.run(debug=True)
 
