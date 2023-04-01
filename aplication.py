@@ -77,11 +77,11 @@ def index():
         cantidad = form.cantidad_uno.data
         desc = form.desc_uno.data
         cantidad_dos = form.cantidad_dos.data
-        desc_dos = form.desc_tres.data
+        desc_dos = form.desc_dos.data
         cantidad_tres = form.cantidad_tres.data
-        desc_tres = form.desc_cuatro.data
+        desc_tres = form.desc_tres.data
         cantidad_cuatro = form.cantidad_cuatro.data
-        desc_cuatro = form.desc_cinco.data
+        desc_cuatro = form.desc_cuatro.data
         cantidad_cinco = form.cantidad_cinco.data
         desc_cinco = form.desc_cinco.data
         cantidad_seis = form.cantidad_seis.data
