@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired
 from PIL import Image, ImageDraw, ImageFont
 import os
@@ -21,28 +21,44 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secrtuky23876213et'
 directorio = os.path.abspath(os.path.dirname(__file__))
 
-def escribir(remitos, dia, mes, anio, orden, cantidad, desc, cantidad_dos, desc_dos, cantidad_tres, desc_tres, cantidad_cuatro, desc_cuatro, cantidad_cinco,desc_cinco, cantidad_seis, desc_seis):
+def escribir(seniores, direc, transp, lugar, cui, iba, remitos, dia, mes, anio, orden, cantidad, desc, cantidad_dos, desc_dos, cantidad_tres, desc_tres, cantidad_cuatro, desc_cuatro, cantidad_cinco,desc_cinco, cantidad_seis, desc_seis):
     remit = remitos
     image = Image.open(f'{directorio}/Remitolimpio.jpg')
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype(f'{directorio}/arial.ttf', 32)
-    draw.text((1405, 315),remit, font=font, fill="black")
-    draw.text((1374, 394),dia, font=font, fill="black")
-    draw.text((1442, 394),mes, font=font, fill="black")
-    draw.text((1510 , 394),anio, font=font, fill="black")
-    draw.text((1370, 772),orden, font=font, fill="black")
-    draw.text((630, 888),cantidad, font=font, fill="black")
-    draw.text((800, 885),desc, font=font, fill="black")
-    draw.text((630, 930),cantidad_dos, font=font, fill="black")
-    draw.text((800, 927),desc_dos, font=font, fill="black")
-    draw.text((630, 972),cantidad_tres, font=font, fill="black")
-    draw.text((800, 969),desc_tres, font=font, fill="black")
-    draw.text((630, 1014),cantidad_cuatro, font=font, fill="black")
-    draw.text((800, 1011),desc_cuatro, font=font, fill="black")
-    draw.text((630, 1056),cantidad_cinco, font=font, fill="black")
-    draw.text((800, 1053),desc_cinco, font=font, fill="black")
-    draw.text((630, 1098),cantidad_seis, font=font, fill="black")
-    draw.text((800, 1095),desc_seis, font=font, fill="black")
+    font20 = ImageFont.truetype(f'{directorio}/arial.ttf', 20)
+    font22 = ImageFont.truetype(f'{directorio}/arial.ttf', 22)
+    font24 = ImageFont.truetype(f'{directorio}/arial.ttf', 24)
+    draw.text((960, 216),remit, font=font22, fill="black")
+    draw.text((940, 268),dia, font=font24, fill="black")
+    draw.text((985, 268),mes, font=font24, fill="black")
+    draw.text((1030, 268),anio, font=font24, fill="black")
+    draw.text((935, 525),orden, font=font24, fill="black")
+    draw.text((455, 385),seniores, font=font22, fill="black")
+    draw.text((455, 423),direc, font=font22, fill="black")
+    draw.text((480, 496),transp, font=font22, fill="black")
+    draw.text((500, 532),lugar, font=font22, fill="black")
+    draw.text((853, 457),cui, font=font22, fill="black")
+    draw.text((430, 610),cantidad, font=font20, fill="black")
+    draw.text((550, 610),desc, font=font20, fill="black")
+    draw.text((430, 639),cantidad_dos, font=font20, fill="black")
+    draw.text((550, 639),desc_dos, font=font20, fill="black")
+    draw.text((430, 668),cantidad_tres, font=font20, fill="black")
+    draw.text((550, 668),desc_tres, font=font20, fill="black")
+    draw.text((430, 697),cantidad_cuatro, font=font20, fill="black")
+    draw.text((550, 697),desc_cuatro, font=font20, fill="black")
+    draw.text((430, 726),cantidad_cinco, font=font20, fill="black")
+    draw.text((550, 726),desc_cinco, font=font20, fill="black")
+    draw.text((430, 755),cantidad_seis, font=font20, fill="black")
+    draw.text((550, 755),desc_seis, font=font20, fill="black")
+    draw.text((935, 1140),"Vto 31/12/23", font=font22, fill="black")
+    if iba == 'Responsable inscripto':
+        draw.text((713, 465),"x", font=font22, fill="black")
+    elif iba == 'Consumidor final':
+        draw.text((470, 465),"x", font=font22, fill="black")
+    elif iba == 'Exento':
+        draw.text((535, 465),"x", font=font22, fill="black")
+    elif iba == 'Responsable monotributista':
+        draw.text((628, 465),"x", font=font22, fill="black")
     image.save(f'{directorio}/static/foto.jpg')
 
 class Registro(FlaskForm):
@@ -51,6 +67,12 @@ class Registro(FlaskForm):
     mes = StringField('Mes',render_kw={'style': 'font-size: 2rem','value':mes}, validators=[DataRequired()])
     anio = StringField('Año', render_kw={'style': 'font-size: 2rem', 'value':anio_s}, validators=[DataRequired()])
     orden = StringField('Orden de compra', render_kw={'style': 'font-size: 2rem'})
+    seniores = StringField('Señores', render_kw={'style': 'font-size: 2rem', 'value':"Cristamine"}, validators=[DataRequired()])
+    direccion = StringField('Direccion', render_kw={'style': 'font-size: 2rem', 'value':"Dardo Rocha 1037"}, validators=[DataRequired()])
+    iva = SelectField('IVA', choices=['Responsable inscripto', 'Consumidor final', 'Exento', 'Responsable monotributista'], render_kw={'style': 'font-size: 2rem'})
+    transportista = StringField('Transportista', render_kw={'style': 'font-size: 2rem', 'value':"Croce"}, validators=[DataRequired()])
+    lugar_entrega = StringField('Lugar de entrega', render_kw={'style': 'font-size: 2rem', 'value':"Dardo Rocha 1073"}, validators=[DataRequired()])
+    cuit = StringField('Cuit', render_kw={'style': 'font-size: 2rem', 'value':"30-50423240-5"}, validators=[DataRequired()])
     cantidad_uno = StringField('Cantidad', render_kw={'style': 'font-size: 2rem'}, validators=[DataRequired()])
     desc_uno = StringField('Descripcion', render_kw={'style': 'font-size: 2rem'}, validators=[DataRequired()])
     cantidad_dos = StringField('Cantidad', render_kw={'style': 'font-size: 2rem'})
@@ -73,6 +95,12 @@ def index():
         dia = form.dia.data
         mes = form.mes.data
         anio = form.anio.data
+        senior = form.seniores.data
+        dire = form.direccion.data
+        transporte = form.transportista.data
+        lugar = form.lugar_entrega.data
+        cui = form.cuit.data
+        iva = form.iva.data
         orden = form.orden.data
         cantidad = form.cantidad_uno.data
         desc = form.desc_uno.data
@@ -86,7 +114,7 @@ def index():
         desc_cinco = form.desc_cinco.data
         cantidad_seis = form.cantidad_seis.data
         desc_seis = form.desc_seis.data
-        escribir(remit, dia, mes, anio, orden, cantidad, desc, cantidad_dos, desc_dos, cantidad_tres, desc_tres, cantidad_cuatro, desc_cuatro, cantidad_cinco,desc_cinco, cantidad_seis, desc_seis)
+        escribir(senior, dire, transporte, lugar, cui, iva, remit, dia, mes, anio, orden, cantidad, desc, cantidad_dos, desc_dos, cantidad_tres, desc_tres, cantidad_cuatro, desc_cuatro, cantidad_cinco,desc_cinco, cantidad_seis, desc_seis)
         return redirect(url_for('remito'))
     return render_template('index.html', form=form)
 
