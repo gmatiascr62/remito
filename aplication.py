@@ -59,7 +59,7 @@ def escribir(seniores, direc, transp, lugar, cui, iba, remitos, dia, mes, anio, 
         draw.text((535, 465),"x", font=font22, fill="black")
     elif iba == 'Responsable monotributista':
         draw.text((628, 465),"x", font=font22, fill="black")
-    image.save(f'{directorio}/static/foto.jpg')
+    image.save(f'{directorio}/static/remito-{remit}.jpg')
 
 class Registro(FlaskForm):
     remito = StringField('Remito N°', render_kw={'style': 'font-size: 2rem'}, validators=[DataRequired()])
@@ -115,12 +115,13 @@ def index():
         cantidad_seis = form.cantidad_seis.data
         desc_seis = form.desc_seis.data
         escribir(senior, dire, transporte, lugar, cui, iva, remit, dia, mes, anio, orden, cantidad, desc, cantidad_dos, desc_dos, cantidad_tres, desc_tres, cantidad_cuatro, desc_cuatro, cantidad_cinco,desc_cinco, cantidad_seis, desc_seis)
-        return redirect(url_for('remito'))
+        return redirect(url_for('remito', numero=remit))
     return render_template('index.html', form=form)
 
-@app.route("/remito")
-def remito():
-    return render_template('foto.html')
+@app.route("/remito/<numero>")
+def remito(numero):
+    numero = f'remito-{numero}.jpg'
+    return render_template('foto.html', numero=numero)
 
 #if __name__ == "__main__":
 #    app.run(debug=True)
