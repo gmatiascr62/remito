@@ -1,10 +1,14 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField
+from wtforms import StringField, SubmitField, SelectField, PasswordField, BooleanField
 from wtforms.validators import DataRequired
+from flask_login import LoginManager, login_user, logout_user, current_user, login_required, UserMixin
 from PIL import Image, ImageDraw, ImageFont
 import os
 from datetime import date
+from datetime import timedelta
+
+
 
 hoy = date.today()
 
@@ -19,6 +23,9 @@ if mes < 10 :
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secrtuky23876213et'
+login = LoginManager(app)
+login.login_view = 'logi'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=10)
 directorio = os.path.abspath(os.path.dirname(__file__))
 
 def escribir(seniores, direc, transp, lugar, cui, iba, remitos, dia, mes, anio, orden, cantidad, desc, cantidad_dos, desc_dos, cantidad_tres, desc_tres, cantidad_cuatro, desc_cuatro, cantidad_cinco,desc_cinco, cantidad_seis, desc_seis):
@@ -61,6 +68,18 @@ def escribir(seniores, direc, transp, lugar, cui, iba, remitos, dia, mes, anio, 
         draw.text((628, 465),"x", font=font22, fill="black")
     image.save(f'{directorio}/static/remito-{remit}.jpg')
 
+class User(UserMixin):
+    def __init__(self, id):
+        self.id = id
+    def is_active(self):
+        return True
+
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember_me = BooleanField('Remember Me')
+    submit = SubmitField('Sign In')
+
 class Registro(FlaskForm):
     remito = StringField('Remito N°', render_kw={'style': 'font-size: 2rem'}, validators=[DataRequired()])
     dia = StringField('Dia', render_kw={'style': 'font-size: 2rem', 'value':dia}, validators=[DataRequired()])
@@ -87,7 +106,20 @@ class Registro(FlaskForm):
     desc_seis = StringField('Descripcion', render_kw={'style': 'font-size: 2rem'})
     submit = SubmitField('Generar', render_kw={'style': 'font-size: 2rem'})
 
+@app.route("/login", methods=['GET', 'POST'])
+def logi():
+    form = LoginForm()
+    if form.validate_on_submit():
+        if form.username.data == "taller":
+             if form.password.data == "1342":
+                user = User(id=1)
+                login_user(user)
+                return redirect(url_for('index'))
+    return render_template('login.html', form=form)
+
+
 @app.route("/", methods=['GET', 'POST'])
+@login_required
 def index():
     form = Registro()
     if form.validate_on_submit():
@@ -119,9 +151,20 @@ def index():
     return render_template('index.html', form=form)
 
 @app.route("/remito/<numero>")
+@login_required
 def remito(numero):
     numero = f'remito-{numero}.jpg'
     return render_template('foto.html', numero=numero)
+
+@login.user_loader
+def load_user(id):
+    return User(id)
+
+@login.unauthorized_handler
+def unauthorized():
+    login_message = 'No tiene permiso para ver esta pagina'
+    return redirect(url_for('logi', next=request.path, message=login_message))
+
 
 #if __name__ == "__main__":
 #    app.run(debug=True)
