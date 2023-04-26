@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, send_file
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, PasswordField, BooleanField
 from wtforms.validators import DataRequired
@@ -154,7 +154,16 @@ def index():
 @login_required
 def remito(numero):
     numero = f'remito-{numero}.jpg'
-    return render_template('foto.html', numero=numero)
+    ruta_imagen = directorio+"/static/"+numero
+    return render_template('foto.html', ruta_imagen=ruta_imagen, numero=numero)
+    
+@app.route("/descargar/<ruta_archivo>")
+def descargar(ruta_archivo):
+    print("entro en descargar")
+    print(ruta_archivo)
+    ruta_imagen = directorio+"/static/"+ruta_archivo
+    return send_file(ruta_imagen, as_attachment=True)
+
 
 @login.user_loader
 def load_user(id):
@@ -162,7 +171,7 @@ def load_user(id):
 
 @login.unauthorized_handler
 def unauthorized():
-    login_message = 'No tiene permiso para ver esta pagina'
+    login_message = 'Please log in to access this page.'
     return redirect(url_for('logi', next=request.path, message=login_message))
 
 
