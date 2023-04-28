@@ -1,0 +1,64 @@
+ #formulario {
+  width: 70%;
+  margin: 0 auto;
+}
+
+#formulario p,
+#formulario span {
+  margin-bottom: 10px;
+}
+
+input[type="text"],
+select {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 16px;
+  padding: 5px;
+}
+
+input[type="submit"] {
+  background-color: #2C3E50;
+  border: none;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 16px;
+  padding: 10px 20px;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: #333;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #2C3E50;
+  text-align: center;
+}
+
+label {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.error {
+  color: #E74C3C;
+}
+
+#encabezado span {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+span{
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.centar{
+    text-align: center;
+}

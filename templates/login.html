@@ -1,4 +1,12 @@
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller Croce</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
     <h1>Iniciar Sesion</h1>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
@@ -19,3 +27,5 @@
         <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
+</body>
+</html>

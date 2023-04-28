@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, send_file
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, PasswordField, BooleanField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Length
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required, UserMixin
 from PIL import Image, ImageDraw, ImageFont
 import os
@@ -75,16 +75,16 @@ class User(UserMixin):
         return True
 
 class LoginForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
+    username = StringField('Usuario', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Sign In')
+    remember_me = BooleanField('Recuerdame')
+    submit = SubmitField('Entrar')
 
 class Registro(FlaskForm):
-    remito = StringField('Remito N°', render_kw={'style': 'font-size: 2rem'}, validators=[DataRequired()])
-    dia = StringField('Dia', render_kw={'style': 'font-size: 2rem', 'value':dia}, validators=[DataRequired()])
-    mes = StringField('Mes',render_kw={'style': 'font-size: 2rem','value':mes}, validators=[DataRequired()])
-    anio = StringField('Año', render_kw={'style': 'font-size: 2rem', 'value':anio_s}, validators=[DataRequired()])
+    remito = StringField('Remito N°', render_kw={'style': 'font-size: 2rem', "size": 3}, validators=[DataRequired(), Length(max=3)])
+    dia = StringField('Dia', render_kw={'style': 'font-size: 2rem', 'value':dia, "size":2}, validators=[DataRequired(), Length(max=2)])
+    mes = StringField('Mes',render_kw={'style': 'font-size: 2rem','value':mes, "size":2}, validators=[DataRequired(), Length(max=2)])
+    anio = StringField('Año', render_kw={'style': 'font-size: 2rem', 'value':anio_s, "size":2}, validators=[DataRequired(), Length(max=2)])
     orden = StringField('Orden de compra', render_kw={'style': 'font-size: 2rem'})
     seniores = StringField('Señores', render_kw={'style': 'font-size: 2rem', 'value':"Cristamine"}, validators=[DataRequired()])
     direccion = StringField('Direccion', render_kw={'style': 'font-size: 2rem', 'value':"Dardo Rocha 1037"}, validators=[DataRequired()])
