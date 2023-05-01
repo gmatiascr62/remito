@@ -4,12 +4,12 @@
 
 {% block content %}
 
-<div class="container p-3 borde colorear">
+<div class="container p-2 borde colorear">
     <form action="" method="post" novalidate>
     {{ form.hidden_tag() }}
     <div class="container borde color_blanco">
       <div class="row align-items-center">
-        <div class="col-6 mt-3 d-flex justify-content-center">
+        <div class="col-4 mt-3 d-flex justify-content-center">
           <p>
             {{ form.remito.label }}
             {{ form.remito(size=3) }}
@@ -18,7 +18,7 @@
             {% endfor %}
         </p>
         </div>
-        <div class="col-6" id="fecha">
+        <div class="col-8 d-flex justify-content-center" id="fecha">
           <span>
             {{ form.dia.label }}
             {{ form.dia(size=2) }}
@@ -43,7 +43,7 @@
         </div>
         </div>
         </div>
-        <div class="container borde mt-2 p-3 color_blanco">
+        <div class="container borde mt-1 p-2 color_blanco">
                 <div class="row">
                     <div class="col-6">
                          <p>
@@ -116,9 +116,9 @@
           <div class="container borde mt-2 p-3 color_blanco">
               <div class="row">
                   <div class="col-2 d-flex justify-content-center">
-                      <h4>
+                      <h5>
                           Cantidad
-                      </h4>
+                      </h5>
                   </div>
                   <div class="col-10 d-flex justify-content-center">
                       <h4>
@@ -211,7 +211,7 @@
                   </div>
               </div>
           </div>
-              <div class="container mt-2 p-3 borde color_blanco">
+              <div class="container mt-1 p-1 borde color_blanco">
                   <div class="row">
                       <div class="col-12 d-flex justify-content-center">
                           <p>{{ form.submit() }}</p>
