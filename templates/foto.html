@@ -1,3 +1,16 @@
-<img src= {{ url_for('static', filename=numero) }}>
-<a href="{{ url_for('descargar', ruta_archivo=numero) }}">Descargar archivo</a>
+{% extends "base.html" %}
 
+{% block title %}Remito{% endblock %}
+
+{% block content %}
+
+
+<img src= {{ url_for('static', filename=numero) }} style="max-width: 100%">
+<div class="container">
+    <div class="row">
+        <div class="col-12 mt-2 d-flex justify-content-center">
+            <a href="{{ url_for('descargar', ruta_archivo=numero) }}" class="btn btn-primary">Descargar Remito</a>
+        </div>
+    </div>
+</div>
+{%endblock%}

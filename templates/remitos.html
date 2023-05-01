@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block title %}Remito{% endblock %}
+
+{% block content %}
+
+<div class="container p-3 borde colorear">
+    <form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="container borde color_blanco">
+      <div class="row align-items-center">
+        <div class="col-6 mt-3 d-flex justify-content-center">
+          <p>
+            {{ form.remito.label }}
+            {{ form.remito(size=3) }}
+            {% for error in form.remito.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        </div>
+        <div class="col-6" id="fecha">
+          <span>
+            {{ form.dia.label }}
+            {{ form.dia(size=2) }}
+            {% for error in form.dia.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </span>
+        <span>
+            {{ form.mes.label }}
+            {{ form.mes(size=2, class_='my-input2') }}
+            {% for error in form.mes.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </span>
+	<span>
+            {{ form.anio.label }}
+            {{ form.anio(size=2, class_='my-input2') }}
+            {% for error in form.anio.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+    </span>
+        </div>
+        </div>
+        </div>
+        <div class="container borde mt-2 p-3 color_blanco">
+                <div class="row">
+                    <div class="col-6">
+                         <p>
+                            {{ form.seniores.label }}
+                            {{ form.seniores(size=12) }}
+                            {% for error in form.seniores.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <p>
+                            {{ form.cuit.label }}
+                            {{ form.cuit(size=12) }}
+                            {% for error in form.cuit.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                            {% endfor %}
+                        </p>
+                    </div>
+              </div>
+              <div class="row">
+                  <div class="col-6">
+                      <p>
+                            {{ form.direccion.label }}
+                            {{ form.direccion(size=12) }}
+                            {% for error in form.direccion.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                            {% endfor %}
+                        </p>
+                  </div>
+                  <div class="col-6">
+                      <p>
+                            {{ form.transportista.label }}
+                            {{ form.transportista(size=12) }}
+                            {% for error in form.transportista.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                            {% endfor %}
+                       </p>
+                  </div>
+              </div>
+                <div class="row">
+                  <div class="col-6">
+                      <p>
+                            {{ form.lugar_entrega.label }}
+                            {{ form.lugar_entrega(size=12) }}
+                            {% for error in form.lugar_entrega.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                            {% endfor %}
+                       </p>
+                  </div>
+                  <div class="col-6">
+                      <p>
+                            {{ form.orden.label }}
+                            {{ form.orden(size=2) }}
+                            {% for error in form.orden.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                            {% endfor %}
+                       </p>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-12 d-flex justify-content-center">
+                      <p>
+                            {{ form.iva.label }}
+                            {{ form.iva}}
+                       </p>
+                  </div>
+              </div>
+          </div>
+          <div class="container borde mt-2 p-3 color_blanco">
+              <div class="row">
+                  <div class="col-2 d-flex justify-content-center">
+                      <h4>
+                          Cantidad
+                      </h4>
+                  </div>
+                  <div class="col-10 d-flex justify-content-center">
+                      <h4>
+                          Descripcion
+                      </h4>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-2 d-flex justify-content-center">
+                        {{ form.cantidad_uno(size=2, class_="juntos") }}
+                        {% for error in form.cantidad_uno.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                  </div>
+                  <div class="col-10">
+                        {{ form.desc_uno(size=12) }}
+                        {% for error in form.desc_uno.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-2 d-flex justify-content-center">
+                        {{ form.cantidad_dos(size=2, class_="juntos") }}
+                        {% for error in form.cantidad_uno.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                  </div>
+                  <div class="col-10">
+                        {{ form.desc_dos(size=12) }}
+                        {% for error in form.desc_uno.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-2 d-flex justify-content-center">
+                        {{ form.cantidad_tres(size=2, class_="juntos") }}
+                        {% for error in form.cantidad_uno.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                  </div>
+                  <div class="col-10">
+                        {{ form.desc_tres(size=12) }}
+                        {% for error in form.desc_uno.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-2 d-flex justify-content-center">
+                        {{ form.cantidad_cuatro(size=2, class_="juntos") }}
+                        {% for error in form.cantidad_uno.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                  </div>
+                  <div class="col-10">
+                        {{ form.desc_cuatro(size=12) }}
+                        {% for error in form.desc_uno.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-2 d-flex justify-content-center">
+                        {{ form.cantidad_cinco(size=2, class_="juntos") }}
+                        {% for error in form.cantidad_uno.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                  </div>
+                  <div class="col-10">
+                        {{ form.desc_cinco(size=12) }}
+                        {% for error in form.desc_uno.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col-2 d-flex justify-content-center">
+                        {{ form.cantidad_seis(size=2, class_="juntos") }}
+                        {% for error in form.cantidad_uno.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                  </div>
+                  <div class="col-10">
+                        {{ form.desc_seis(size=12) }}
+                        {% for error in form.desc_uno.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                  </div>
+              </div>
+          </div>
+              <div class="container mt-2 p-3 borde color_blanco">
+                  <div class="row">
+                      <div class="col-12 d-flex justify-content-center">
+                          <p>{{ form.submit() }}</p>
+                      </div>
+                  </div>
+              </div>
+        </div>
+      </div>
+      </form>
+    </div>
+
+{% endblock %}
+
+

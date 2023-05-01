@@ -25,7 +25,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secrtuky23876213et'
 login = LoginManager(app)
 login.login_view = 'logi'
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=10)
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=50)
 directorio = os.path.abspath(os.path.dirname(__file__))
 
 def escribir(seniores, direc, transp, lugar, cui, iba, remitos, dia, mes, anio, orden, cantidad, desc, cantidad_dos, desc_dos, cantidad_tres, desc_tres, cantidad_cuatro, desc_cuatro, cantidad_cinco,desc_cinco, cantidad_seis, desc_seis):
@@ -80,30 +80,31 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Recuerdame')
     submit = SubmitField('Entrar')
 
+
 class Registro(FlaskForm):
-    remito = StringField('Remito N°', render_kw={'style': 'font-size: 2rem', "size": 3}, validators=[DataRequired(), Length(max=3)])
-    dia = StringField('Dia', render_kw={'style': 'font-size: 2rem', 'value':dia, "size":2}, validators=[DataRequired(), Length(max=2)])
-    mes = StringField('Mes',render_kw={'style': 'font-size: 2rem','value':mes, "size":2}, validators=[DataRequired(), Length(max=2)])
-    anio = StringField('Año', render_kw={'style': 'font-size: 2rem', 'value':anio_s, "size":2}, validators=[DataRequired(), Length(max=2)])
-    orden = StringField('Orden de compra', render_kw={'style': 'font-size: 2rem'})
-    seniores = StringField('Señores', render_kw={'style': 'font-size: 2rem', 'value':"Cristamine"}, validators=[DataRequired()])
-    direccion = StringField('Direccion', render_kw={'style': 'font-size: 2rem', 'value':"Dardo Rocha 1037"}, validators=[DataRequired()])
-    iva = SelectField('IVA', choices=['Responsable inscripto', 'Consumidor final', 'Exento', 'Responsable monotributista'], render_kw={'style': 'font-size: 2rem'})
-    transportista = StringField('Transportista', render_kw={'style': 'font-size: 2rem', 'value':"Croce"}, validators=[DataRequired()])
-    lugar_entrega = StringField('Lugar de entrega', render_kw={'style': 'font-size: 2rem', 'value':"Dardo Rocha 1073"}, validators=[DataRequired()])
-    cuit = StringField('Cuit', render_kw={'style': 'font-size: 2rem', 'value':"30-50423240-5"}, validators=[DataRequired()])
-    cantidad_uno = StringField('Cantidad', render_kw={'style': 'font-size: 2rem'}, validators=[DataRequired()])
-    desc_uno = StringField('Descripcion', render_kw={'style': 'font-size: 2rem'}, validators=[DataRequired()])
-    cantidad_dos = StringField('Cantidad', render_kw={'style': 'font-size: 2rem'})
-    desc_dos = StringField('Descripcion', render_kw={'style': 'font-size: 2rem'})
-    cantidad_tres = StringField('Cantidad', render_kw={'style': 'font-size: 2rem'})
-    desc_tres = StringField('Descripcion', render_kw={'style': 'font-size: 2rem'})
-    cantidad_cuatro = StringField('Cantidad', render_kw={'style': 'font-size: 2rem'})
-    desc_cuatro = StringField('Descripcion', render_kw={'style': 'font-size: 2rem'})
-    cantidad_cinco = StringField('Cantidad', render_kw={'style': 'font-size: 2rem'})
-    desc_cinco = StringField('Descripcion', render_kw={'style': 'font-size: 2rem'})
-    cantidad_seis = StringField('Cantidad', render_kw={'style': 'font-size: 2rem'})
-    desc_seis = StringField('Descripcion', render_kw={'style': 'font-size: 2rem'})
+    remito = StringField('Remito N°', render_kw={'style': 'font-size: 2rem; width: 70px', "size": 3}, validators=[DataRequired(), Length(max=3)])
+    dia = StringField('Dia', render_kw={'style': 'font-size: 2rem; width: 50px' , 'value':dia, "size":2}, validators=[DataRequired(), Length(max=2)])
+    mes = StringField('Mes',render_kw={'style': 'font-size: 2rem; width: 50px','value':mes, "size":2}, validators=[DataRequired(), Length(max=2)])
+    anio = StringField('Año', render_kw={'style': 'font-size: 2rem; width: 50px', 'value':anio_s, "size":2}, validators=[DataRequired(), Length(max=2)])
+    orden = StringField('Orden de compra', render_kw={'style': 'font-size: 1.5rem'})
+    seniores = StringField('Señores', render_kw={'style': 'font-size: 1.5rem; width: 170px', 'value':"Cristamine"}, validators=[DataRequired()])
+    direccion = StringField('Direccion', render_kw={'style': 'font-size: 1.5rem', 'value':"Dardo Rocha 1037"}, validators=[DataRequired()])
+    iva = SelectField('IVA', choices=['Responsable inscripto', 'Consumidor final', 'Exento', 'Responsable monotributista'], render_kw={'style': 'font-size: 1.5rem'})
+    transportista = StringField('Transportista', render_kw={'style': 'font-size: 1.5rem; width: 170px', 'value':"Croce"}, validators=[DataRequired()])
+    lugar_entrega = StringField('Lugar de entrega', render_kw={'style': 'font-size: 1rem', 'value':"Dardo Rocha 1073"}, validators=[DataRequired()])
+    cuit = StringField('Cuit', render_kw={'style': 'font-size: 1.5rem; width: 240px', 'value':"30-50423240-5"}, validators=[DataRequired()])
+    cantidad_uno = StringField('Cantidad', render_kw={'style': 'font-size: 1.5rem; width: 50%'}, validators=[DataRequired()])
+    desc_uno = StringField('Descripcion', render_kw={'style': 'font-size: 1.5rem; width: 100%'}, validators=[DataRequired()])
+    cantidad_dos = StringField('Cantidad', render_kw={'style': 'font-size: 1.5rem; width: 50%'})
+    desc_dos = StringField('Descripcion', render_kw={'style': 'font-size: 1.5rem; width: 100%'})
+    cantidad_tres = StringField('Cantidad', render_kw={'style': 'font-size: 1.5rem; width: 50%'})
+    desc_tres = StringField('Descripcion', render_kw={'style': 'font-size: 1.5rem; width: 100%'})
+    cantidad_cuatro = StringField('Cantidad', render_kw={'style': 'font-size: 1.5rem; width: 50%'})
+    desc_cuatro = StringField('Descripcion', render_kw={'style': 'font-size: 1.5rem; width: 100%'})
+    cantidad_cinco = StringField('Cantidad', render_kw={'style': 'font-size: 1.5rem; width: 50%'})
+    desc_cinco = StringField('Descripcion', render_kw={'style': 'font-size: 1.5rem; width: 100%'})
+    cantidad_seis = StringField('Cantidad', render_kw={'style': 'font-size: 1.5rem; width: 50%'})
+    desc_seis = StringField('Descripcion', render_kw={'style': 'font-size: 1.5rem; width: 100%'})
     submit = SubmitField('Generar', render_kw={'style': 'font-size: 2rem'})
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -118,9 +119,20 @@ def logi():
     return render_template('login.html', form=form)
 
 
+@app.route("/prueba", methods=['GET', 'POST'])
+def prueba():
+    form = Registro()
+    return render_template('prueba.html', form=form)
+
+
 @app.route("/", methods=['GET', 'POST'])
 @login_required
 def index():
+    return render_template('index.html')
+
+@app.route("/remitos", methods=['GET', 'POST'])
+@login_required
+def remitos():
     form = Registro()
     if form.validate_on_submit():
         remit = form.remito.data
@@ -148,7 +160,9 @@ def index():
         desc_seis = form.desc_seis.data
         escribir(senior, dire, transporte, lugar, cui, iva, remit, dia, mes, anio, orden, cantidad, desc, cantidad_dos, desc_dos, cantidad_tres, desc_tres, cantidad_cuatro, desc_cuatro, cantidad_cinco,desc_cinco, cantidad_seis, desc_seis)
         return redirect(url_for('remito', numero=remit))
-    return render_template('index.html', form=form)
+    return render_template('remitos.html', form=form)
+
+
 
 @app.route("/remito/<numero>")
 @login_required
