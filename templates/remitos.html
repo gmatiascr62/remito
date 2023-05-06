@@ -4,12 +4,12 @@
 
 {% block content %}
 
-<div class="container p-2 borde colorear">
+<div class="container p-1 borde colorear">
     <form action="" method="post" novalidate>
     {{ form.hidden_tag() }}
     <div class="container borde color_blanco">
       <div class="row align-items-center">
-        <div class="col-4 mt-3 d-flex justify-content-center">
+        <div class="col-3 mt-3 d-flex justify-content-center">
           <p>
             {{ form.remito.label }}
             {{ form.remito(size=3) }}
@@ -18,7 +18,16 @@
             {% endfor %}
         </p>
         </div>
-        <div class="col-8 d-flex justify-content-center" id="fecha">
+        <div class="col-4 mt-3 d-flex justify-content-center">
+            <p>
+                {{ form.orden.label }}
+                {{ form.orden(size=2) }}
+                {% for error in form.orden.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+             </p>
+        </div>
+        <div class="col-5 d-flex justify-content-center" id="fecha">
           <span>
             {{ form.dia.label }}
             {{ form.dia(size=2) }}
@@ -43,7 +52,7 @@
         </div>
         </div>
         </div>
-        <div class="container borde mt-1 p-2 color_blanco">
+        <div class="container borde mt-1 pb-1 color_blanco">
                 <div class="row">
                     <div class="col-6">
                          <p>
@@ -95,21 +104,10 @@
                        </p>
                   </div>
                   <div class="col-6">
-                      <p>
-                            {{ form.orden.label }}
-                            {{ form.orden(size=2) }}
-                            {% for error in form.orden.errors %}
-                            <span style="color: red;">[{{ error }}]</span>
-                            {% endfor %}
-                       </p>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="col-12 d-flex justify-content-center">
-                      <p>
-                            {{ form.iva.label }}
-                            {{ form.iva}}
-                       </p>
+                          <p>
+                                {{ form.iva.label }}
+                                {{ form.iva}}
+                           </p>
                   </div>
               </div>
           </div>
