@@ -20,13 +20,16 @@ mes = hoy.month
 if mes < 10 :
     mes = "0"+str(mes)
 
-
+# variables de configuracion
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secrtuky23876213et'
 login = LoginManager(app)
 login.login_view = 'logi'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=50)
 directorio = os.path.abspath(os.path.dirname(__file__))
+
+# precio del material de una rueda de trommel
+pmrt = 16500
 
 def escribir(seniores, direc, transp, lugar, cui, iba, remitos, dia, mes, anio, orden, cantidad, desc, cantidad_dos, desc_dos, cantidad_tres, desc_tres, cantidad_cuatro, desc_cuatro, cantidad_cinco,desc_cinco, cantidad_seis, desc_seis):
     remit = remitos
@@ -178,6 +181,9 @@ def descargar(ruta_archivo):
     ruta_imagen = directorio+"/static/"+ruta_archivo
     return send_file(ruta_imagen, as_attachment=True)
 
+@app.route("/precios")
+def precios():
+    return render_template("precios.html", pmrt=pmrt)
 
 @login.user_loader
 def load_user(id):
@@ -191,4 +197,3 @@ def unauthorized():
 
 #if __name__ == "__main__":
 #    app.run(debug=True)
-
