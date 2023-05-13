@@ -170,7 +170,7 @@ def remitos():
 @app.route("/remito/<numero>")
 @login_required
 def remito(numero):
-    numero = f'remito-{numero}.jpg'
+    numero = f'Remito{numero}.jpg'
     ruta_imagen = directorio+"/static/"+numero
     return render_template('foto.html', ruta_imagen=ruta_imagen, numero=numero)
     
@@ -193,6 +193,8 @@ def load_user(id):
 def unauthorized():
     login_message = 'Please log in to access this page.'
     return redirect(url_for('logi', next=request.path, message=login_message))
+
+
 
 
 #if __name__ == "__main__":
