@@ -69,7 +69,7 @@ def escribir(seniores, direc, transp, lugar, cui, iba, remitos, dia, mes, anio, 
         draw.text((535, 465),"x", font=font22, fill="black")
     elif iba == 'Responsable monotributista':
         draw.text((628, 465),"x", font=font22, fill="black")
-    image.save(f'{directorio}/static/remito-{remit}.jpg')
+    image.save(f'{directorio}/static/Remito{remit}.jpg')
 
 class User(UserMixin):
     def __init__(self, id):
@@ -193,7 +193,6 @@ def load_user(id):
 def unauthorized():
     login_message = 'Please log in to access this page.'
     return redirect(url_for('logi', next=request.path, message=login_message))
-
 
 
 
