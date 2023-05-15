@@ -3,6 +3,9 @@
   border-radius: 10px;
 }
 
+.legend-small {
+            font-size: 18px;
+        }
 
 .colorear{
     background-color: lightskyblue; 

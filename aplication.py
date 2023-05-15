@@ -1,8 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, request, send_file
+from flask import Flask, render_template, redirect, url_for, request, send_file, jsonify, make_response
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, PasswordField, BooleanField
+from wtforms import StringField, SubmitField, SelectField, PasswordField, BooleanField, RadioField
 from wtforms.validators import DataRequired, Length
-from flask_login import LoginManager, login_user, logout_user, current_user, login_required, UserMixin
+from flask_login import LoginManager, login_user, current_user, login_required, UserMixin
 from PIL import Image, ImageDraw, ImageFont
 import os
 from datetime import date
@@ -71,6 +71,18 @@ def escribir(seniores, direc, transp, lugar, cui, iba, remitos, dia, mes, anio, 
         draw.text((628, 465),"x", font=font22, fill="black")
     image.save(f'{directorio}/static/Remito{remit}.jpg')
 
+def escribir_chavetero(diametro, tipo):
+    print("entro a la funcion escribir")
+    print("diametro:", diametro)
+    print("tipo:", tipo)
+    image = Image.open(f'{directorio}/static/chli.jpg')
+    draw = ImageDraw.Draw(image)
+    font24 = ImageFont.truetype(f'{directorio}/arial.ttf', 60)
+    draw.text((40, 280),diametro, font=font24, fill="black")
+    draw.text((325, 10),"12", font=font24, fill="black")
+    image = image.convert("RGB")
+    image.save(f'{directorio}/static/imagen_chavetero.jpg')
+
 class User(UserMixin):
     def __init__(self, id):
         self.id = id
@@ -133,6 +145,11 @@ def prueba():
 def index():
     return render_template('index.html')
 
+@app.route("/cosas", methods=['GET', 'POST'])
+@login_required
+def cosas():
+    return render_template('cosas.html')
+
 @app.route("/remitos", methods=['GET', 'POST'])
 @login_required
 def remitos():
@@ -166,7 +183,6 @@ def remitos():
     return render_template('remitos.html', form=form)
 
 
-
 @app.route("/remito/<numero>")
 @login_required
 def remito(numero):
@@ -194,7 +210,15 @@ def unauthorized():
     login_message = 'Please log in to access this page.'
     return redirect(url_for('logi', next=request.path, message=login_message))
 
+@app.route('/api', methods=['GET', 'POST'])
+def api():
+    datos = request.get_json()
+    datos = datos['texto']
+    if datos[0] == "chavetero":
+        escribir_chavetero(datos[1], datos[2])
+    print(datos)
+    respuesta = make_response(jsonify({'respuesta': f'{datos}'}, 200))
+    return respuesta
 
-
-#if __name__ == "__main__":
-#    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Cosas{% endblock %}
+
+{% block content %}
+
+<script src="//cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
+
+<div class="container col-8 bg-info">
+	<div class="row">
+		<h2 class="text-center mx-auto">Calculo de chaveteros</h2>
+	</div>
+	<div class="row">
+		<div class="col-6">
+					<p class="text-center mx-auto">
+					        <label>Diametro</label> 
+        					<input type="text" id="diametro" size="3">
+        			</p>
+        			<hr>
+        				<div class="text-center mx-auto">
+        					<input type="radio" id="interior" name="myRadio">
+                            <label for="interior">Interior</label>
+                            <input type="radio" id="exterior" name="myRadio">
+                            <label for="exterior">Exterior</label>
+                        </div>
+        			<hr>
+        			<div class="text-center mx-auto">
+        			    <button type="submit" id="calcular_ch">Calcular</button>
+	                </div>
+		</div>
+		<div id="contenedor_imagen"class="col-6">
+			<img id="imagen_cha" src= {{ url_for('static', filename="chli.jpg") }} style="max-width: 100%">
+		</div>
+	</div>
+</div>
+
+ <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+{% endblock %}
