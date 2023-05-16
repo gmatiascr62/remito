@@ -71,17 +71,56 @@ def escribir(seniores, direc, transp, lugar, cui, iba, remitos, dia, mes, anio, 
         draw.text((628, 465),"x", font=font22, fill="black")
     image.save(f'{directorio}/static/Remito{remit}.jpg')
 
+
+def calcular_chavetero_interior(diametro):
+    diametro = float(diametro)
+    if diametro > 9 and diametro < 13:
+        return [str(diametro + 1.7), "4"]
+    elif diametro > 12 and diametro < 18:
+        return [str(diametro + 2.2), "5"]
+    elif diametro > 17 and diametro < 23:
+        return [str(diametro + 2.7), "6"]
+    elif diametro > 22 and diametro < 31:
+        return [str(diametro + 3.2), "8"]
+    elif diametro > 30 and diametro < 39:
+        return [str(diametro + 3.7), "10"]
+    elif diametro > 38 and diametro < 45:
+        return [str(diametro + 3.7), "12"]
+    elif diametro > 44 and diametro < 51:
+        return [str(diametro + 4.2), "14"]
+    elif diametro > 50 and diametro < 59:
+        return [str(diametro + 5.2), "16"]
+    elif diametro > 58 and diametro < 69:
+        return [str(diametro + 5.3), "18"]
+    elif diametro > 68 and diametro < 79:
+        return [str(diametro + 6.3), "20"]
+    elif diametro > 78 and diametro < 93:
+        return [str(diametro + 7.3), "24"]
+    elif diametro > 92 and diametro < 111:
+        return [str(diametro + 8.3), "28"]
+    elif diametro > 110 and diametro < 131:
+        return [str(diametro + 9.3), "32"]
+    elif diametro > 130 and diametro < 151:
+        return [str(diametro + 10.3), "36"]
+    elif diametro > 150 and diametro < 171:
+        return [str(diametro + 11.3), "40"]
+    elif diametro > 180 and diametro < 201:
+        return [str(diametro + 12.3), "45"]
+    elif diametro > 200 and diametro < 231:
+        return [str(diametro + 14.3), "50"]
+    else:
+        return ["x","x"]
+
 def escribir_chavetero(diametro, tipo):
-    print("entro a la funcion escribir")
-    print("diametro:", diametro)
-    print("tipo:", tipo)
-    image = Image.open(f'{directorio}/static/chli.jpg')
-    draw = ImageDraw.Draw(image)
-    font24 = ImageFont.truetype(f'{directorio}/arial.ttf', 60)
-    draw.text((40, 280),diametro, font=font24, fill="black")
-    draw.text((325, 10),"12", font=font24, fill="black")
-    image = image.convert("RGB")
-    image.save(f'{directorio}/static/imagen_chavetero.jpg')
+    if tipo == "interior":
+        result_chavetero = calcular_chavetero_interior(diametro)
+        image = Image.open(f'{directorio}/static/chli.jpg')
+        draw = ImageDraw.Draw(image)
+        font24 = ImageFont.truetype(f'{directorio}/arial.ttf', 60)
+        draw.text((40, 280),result_chavetero[0], font=font24, fill="black")
+        draw.text((335, 10),result_chavetero[1], font=font24, fill="black")
+        image = image.convert("RGB")
+        image.save(f'{directorio}/static/imagen_chavetero.jpg')
 
 class User(UserMixin):
     def __init__(self, id):
