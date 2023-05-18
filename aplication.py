@@ -78,9 +78,9 @@ def calcular_chavetero_interior(diametro):
         return [str(diametro + 1.7), "4"]
     elif diametro > 12 and diametro < 18:
         return [str(diametro + 2.2), "5"]
-    elif diametro > 17 and diametro < 23:
+    elif diametro > 17 and diametro < 26:
         return [str(diametro + 2.7), "6"]
-    elif diametro > 22 and diametro < 31:
+    elif diametro > 25 and diametro < 31:
         return [str(diametro + 3.2), "8"]
     elif diametro > 30 and diametro < 39:
         return [str(diametro + 3.7), "10"]
