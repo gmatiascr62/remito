@@ -29,7 +29,7 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=50)
 directorio = os.path.abspath(os.path.dirname(__file__))
 
 # precio del material de una rueda de trommel
-pmrt = 15000
+pmrt = 18000
 
 def escribir(seniores, direc, transp, lugar, cui, iba, remitos, dia, mes, anio, orden, cantidad, desc, cantidad_dos, desc_dos, cantidad_tres, desc_tres, cantidad_cuatro, desc_cuatro, cantidad_cinco,desc_cinco, cantidad_seis, desc_seis):
     remit = remitos
@@ -111,6 +111,45 @@ def calcular_chavetero_interior(diametro):
     else:
         return ["x","x"]
 
+def calcular_chavetero_exterior(diametro):
+    diametro = float(diametro)
+    if diametro > 9 and diametro < 13:
+        return ["2.5", "4"]
+    elif diametro > 12 and diametro < 18:
+        return ["3", "5"]
+    elif diametro > 17 and diametro < 26:
+        return ["3.5", "6"]
+    elif diametro > 25 and diametro < 31:
+        return ["4", "8"]
+    elif diametro > 30 and diametro < 39:
+        return ["4.5", "10"]
+    elif diametro > 38 and diametro < 45:
+        return ["4.5", "12"]
+    elif diametro > 44 and diametro < 51:
+        return ["5", "14"]
+    elif diametro > 50 and diametro < 59:
+        return ["5", "16"]
+    elif diametro > 58 and diametro < 69:
+        return ["6", "18"]
+    elif diametro > 68 and diametro < 79:
+        return ["6", "20"]
+    elif diametro > 78 and diametro < 93:
+        return ["7", "24"]
+    elif diametro > 92 and diametro < 111:
+        return ["8", "28"]
+    elif diametro > 110 and diametro < 131:
+        return ["9", "32"]
+    elif diametro > 130 and diametro < 151:
+        return ["10", "36"]
+    elif diametro > 150 and diametro < 171:
+        return ["11", "40"]
+    elif diametro > 180 and diametro < 201:
+        return ["13", "45"]
+    elif diametro > 200 and diametro < 231:
+        return ["14", "50"]
+    else:
+        return ["x","x"]
+
 def escribir_chavetero(diametro, tipo):
     if tipo == "interior":
         result_chavetero = calcular_chavetero_interior(diametro)
@@ -118,7 +157,16 @@ def escribir_chavetero(diametro, tipo):
         draw = ImageDraw.Draw(image)
         font24 = ImageFont.truetype(f'{directorio}/arial.ttf', 60)
         draw.text((40, 280),result_chavetero[0], font=font24, fill="black")
-        draw.text((335, 10),result_chavetero[1], font=font24, fill="black")
+        draw.text((330, 10),result_chavetero[1], font=font24, fill="black")
+        image = image.convert("RGB")
+        image.save(f'{directorio}/static/imagen_chavetero.jpg')
+    elif tipo == "exterior":
+        result_chavetero = calcular_chavetero_exterior(diametro)
+        image = Image.open(f'{directorio}/static/imagen_redimensionada.jpg')
+        draw = ImageDraw.Draw(image)
+        font24 = ImageFont.truetype(f'{directorio}/arial.ttf', 60)
+        draw.text((460, 180),result_chavetero[0], font=font24, fill="black")
+        draw.text((245, 70),result_chavetero[1], font=font24, fill="black")
         image = image.convert("RGB")
         image.save(f'{directorio}/static/imagen_chavetero.jpg')
 
