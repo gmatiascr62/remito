@@ -4,6 +4,11 @@ var interior = document.getElementById("interior");
 var exterior = document.getElementById("exterior");
 var contenedor_imagen = document.getElementById("contenedor_imagen");
 var imagen_chavetero = document.getElementById("imagen_cha");
+var mayor = document.getElementById("mayor");
+var menor = document.getElementById("menor");
+var largo = document.getElementById("largo");
+var grados = document.getElementById("grados");
+var botonCono = document.getElementById("calcular_cono");
 
 async function enviarDatos(datos){
 	var mensaje = {
@@ -37,4 +42,17 @@ botonCh.addEventListener('click', async ()=>{
 			imagen_chavetero.src = "static/imagen_chavetero.jpg?timestamp=" + timestamp;
 		};
 	};
+});
+
+botonCono.addEventListener('click', async ()=>{
+    if (mayor.value === "" || menor.value === "" || largo.value === "") {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+    if (isNaN(mayor.value) || isNaN(menor.value) || isNaN(largo.value)) {
+        alert("Por favor, ingresa solo números válidos.");
+        return;
+    }
+    res = await enviarDatos(["cono",mayor.value, menor.value, largo.value]);
+    grados.textContent = res + "°";
 });

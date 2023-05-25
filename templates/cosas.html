@@ -33,6 +33,38 @@
 	</div>
 </div>
 
+<div class="container col-8 bg-info mt-2">
+	<div class="row">
+		<h2 class="text-center mx-auto">Calculo de Conos</h2>
+	</div>
+	<div class="row">
+		<div class="col-6">
+					<p class="text-center mx-auto">
+					        <label>Diametro Mayor</label> 
+        					<input type="text" id="mayor" size="3">
+        			</p>
+        			<hr>
+        			<p class="text-center mx-auto">
+					    <label>Diametro Menor</label> 
+        			    <input type="text" id="menor" size="3">
+        			</p>
+        			<hr>
+        			<p class="text-center mx-auto">
+					    <label>Largo</label> 
+        			    <input type="text" id="largo" size="3">
+        			</p>
+        			<hr>
+        			<div class="text-center mx-auto">
+        			    <button type="submit" id="calcular_cono">Calcular</button>
+	                </div>
+		</div>
+		<div id="contenedor_imagen"class="col-6">
+			<p class="text-center mx-auto letra-30"> Charriot a</p>
+			<p class="text-center mx-auto letra-60" id="grados"> 0°</p>
+		</div>
+	</div>
+</div>
+
  <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 {% endblock %}

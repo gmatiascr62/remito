@@ -170,6 +170,16 @@ def escribir_chavetero(diametro, tipo):
         image = image.convert("RGB")
         image.save(f'{directorio}/static/imagen_chavetero.jpg')
 
+def calcular_cono(lista):
+    mayor = float(lista[1])
+    menor = float(lista[2])
+    largo = float(lista[3])
+    resultado = (mayor-menor)
+    resultado = resultado/2
+    resultado = resultado*57.3
+    resultado = resultado/largo
+    return str(round(resultado,2))
+    
 class User(UserMixin):
     def __init__(self, id):
         self.id = id
@@ -303,9 +313,11 @@ def api():
     datos = datos['texto']
     if datos[0] == "chavetero":
         escribir_chavetero(datos[1], datos[2])
-    print(datos)
-    respuesta = make_response(jsonify({'respuesta': f'{datos}'}, 200))
+        respuesta = make_response(jsonify({'respuesta': f'{datos}'}, 200))
+    elif datos[0] == "cono":
+        respuesta = make_response(jsonify({'respuesta': calcular_cono(datos)}, 200))
     return respuesta
+   
 
 if __name__ == "__main__":
     app.run(debug=True)
