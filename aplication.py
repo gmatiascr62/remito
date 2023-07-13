@@ -27,8 +27,8 @@ login.login_view = 'logi'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=50)
 directorio = os.path.abspath(os.path.dirname(__file__))
 
-# precio del material de una rueda de trommel sin tapas
-pmrt = 18000
+# precio del material de una rueda de trommel sin tapas y sin iva
+pmrt = 236000
 
 def escribir(seniores, direc, transp, lugar, cui, iba, remitos, dia, mes, anio, orden, cantidad, desc, cantidad_dos, desc_dos, cantidad_tres, desc_tres, cantidad_cuatro, desc_cuatro, cantidad_cinco,desc_cinco, cantidad_seis, desc_seis):
     remit = remitos
