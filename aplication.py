@@ -4,6 +4,7 @@ from wtforms import StringField, SubmitField, SelectField, PasswordField, Boolea
 from wtforms.validators import DataRequired, Length
 from flask_login import LoginManager, login_user, current_user, login_required, UserMixin
 from PIL import Image, ImageDraw, ImageFont
+from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import date
 from datetime import timedelta
@@ -25,10 +26,13 @@ app.config['SECRET_KEY'] = 'secrtuky23876213et'
 login = LoginManager(app)
 login.login_view = 'logi'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=50)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pbpktmle:KhDApuxvt34v4nV9Zad8zdt5RsVBIcwt@rosie.db.elephantsql.com/pbpktmle'
+db = SQLAlchemy(app)
 directorio = os.path.abspath(os.path.dirname(__file__))
 
+
 # precio del material de una rueda de trommel sin tapas y sin iva
-pmrt = 23600
+pmrt = 32400
 
 def escribir(seniores, direc, transp, lugar, cui, iba, remitos, dia, mes, anio, orden, cantidad, desc, cantidad_dos, desc_dos, cantidad_tres, desc_tres, cantidad_cuatro, desc_cuatro, cantidad_cinco,desc_cinco, cantidad_seis, desc_seis):
     remit = remitos
@@ -178,6 +182,11 @@ def calcular_cono(lista):
     resultado = resultado*57.3
     resultado = resultado/largo
     return str(round(resultado,2))
+
+class MiTabla(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    numero = db.Column(db.Integer)
+
     
 class User(UserMixin):
     def __init__(self, id):
@@ -191,6 +200,14 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Recuerdame')
     submit = SubmitField('Entrar')
 
+def actual_numero():
+    with app.app_context():
+        resultado=MiTabla.query.filter_by(id=1).first()
+        if resultado:
+            valor = resultado.numero
+            return valor
+        else:
+            return "999"
 
 class Registro(FlaskForm):
     remito = StringField('Remito N°', render_kw={'style': 'font-size: 1rem; width: 40px', "size": 3}, validators=[DataRequired(), Length(max=3)])
@@ -249,7 +266,8 @@ def cosas():
 @app.route("/remitos", methods=['GET', 'POST'])
 @login_required
 def remitos():
-    form = Registro()
+    valor_predeterminado = actual_numero()
+    form = Registro(remito=valor_predeterminado)
     if form.validate_on_submit():
         remit = form.remito.data
         dia = form.dia.data
@@ -290,6 +308,13 @@ def remito(numero):
 def descargar(ruta_archivo):
     print("entro en descargar")
     print(ruta_archivo)
+    with app.app_context():
+        resultado=MiTabla.query.filter_by(id=1).first()
+        if resultado:
+            print(resultado.numero)
+            resultado.numero = int(ruta_archivo[6:9])+1
+            print(resultado.numero)
+            db.session.commit()
     ruta_imagen = directorio+"/static/"+ruta_archivo
     return send_file(ruta_imagen, as_attachment=True)
 
@@ -316,7 +341,11 @@ def api():
     elif datos[0] == "cono":
         respuesta = make_response(jsonify({'respuesta': calcular_cono(datos)}, 200))
     return respuesta
-   
+
+#with app.app_context():
+#    db.create_all()
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
