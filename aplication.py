@@ -210,7 +210,7 @@ def actual_numero():
             return "999"
 
 class Registro(FlaskForm):
-    remito = StringField('Remito N°', render_kw={'style': 'font-size: 1rem; width: 40px', "size": 4}, validators=[DataRequired(), Length(max=4)])
+    remito = StringField('Remito N°', render_kw={'style': 'font-size: 1rem; width: 45px', "size": 4}, validators=[DataRequired(), Length(max=4)])
     dia = StringField('Dia', render_kw={'style': 'font-size: 1rem; width: 25px' , 'value':dia, "size":2}, validators=[DataRequired(), Length(max=2)])
     mes = StringField('Mes',render_kw={'style': 'font-size: 1rem; width: 25px','value':mes, "size":2}, validators=[DataRequired(), Length(max=2)])
     anio = StringField('Año', render_kw={'style': 'font-size: 1rem; width: 25px', 'value':anio_s, "size":2}, validators=[DataRequired(), Length(max=2)])
