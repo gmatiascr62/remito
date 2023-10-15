@@ -41,7 +41,7 @@ def escribir(seniores, direc, transp, lugar, cui, iba, remitos, dia, mes, anio, 
     font20 = ImageFont.truetype(f'{directorio}/arial.ttf', 20)
     font22 = ImageFont.truetype(f'{directorio}/arial.ttf', 22)
     font24 = ImageFont.truetype(f'{directorio}/arial.ttf', 24)
-    draw.text((960, 216),remit, font=font22, fill="black")
+    draw.text((948, 215),remit, font=font22, fill="black")
     draw.text((940, 268),dia, font=font24, fill="black")
     draw.text((985, 268),mes, font=font24, fill="black")
     draw.text((1030, 268),anio, font=font24, fill="black")
@@ -210,7 +210,7 @@ def actual_numero():
             return "999"
 
 class Registro(FlaskForm):
-    remito = StringField('Remito N°', render_kw={'style': 'font-size: 1rem; width: 40px', "size": 3}, validators=[DataRequired(), Length(max=3)])
+    remito = StringField('Remito N°', render_kw={'style': 'font-size: 1rem; width: 40px', "size": 4}, validators=[DataRequired(), Length(max=4)])
     dia = StringField('Dia', render_kw={'style': 'font-size: 1rem; width: 25px' , 'value':dia, "size":2}, validators=[DataRequired(), Length(max=2)])
     mes = StringField('Mes',render_kw={'style': 'font-size: 1rem; width: 25px','value':mes, "size":2}, validators=[DataRequired(), Length(max=2)])
     anio = StringField('Año', render_kw={'style': 'font-size: 1rem; width: 25px', 'value':anio_s, "size":2}, validators=[DataRequired(), Length(max=2)])
@@ -312,7 +312,7 @@ def descargar(ruta_archivo):
         resultado=MiTabla.query.filter_by(id=1).first()
         if resultado:
             print(resultado.numero)
-            resultado.numero = int(ruta_archivo[6:9])+1
+            resultado.numero = int(ruta_archivo[6:10])+1
             print(resultado.numero)
             db.session.commit()
     ruta_imagen = directorio+"/static/"+ruta_archivo
