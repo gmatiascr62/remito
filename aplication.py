@@ -10,6 +10,10 @@ from datetime import date
 from datetime import timedelta
 
 
+borra = os.getenv('base')
+
+print(borra)
+
 hoy = date.today()
 
 anio_s = str(hoy.year)[-2:]
