@@ -10,9 +10,6 @@ from datetime import date
 from datetime import timedelta
 
 
-borra = os.getenv('base')
-
-print(borra)
 
 hoy = date.today()
 
@@ -30,7 +27,7 @@ app.config['SECRET_KEY'] = 'secrtuky23876213et'
 login = LoginManager(app)
 login.login_view = 'logi'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=50)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://pbpktmle:KhDApuxvt34v4nV9Zad8zdt5RsVBIcwt@rosie.db.elephantsql.com/pbpktmle'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('base')
 db = SQLAlchemy(app)
 directorio = os.path.abspath(os.path.dirname(__file__))
 
