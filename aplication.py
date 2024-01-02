@@ -264,6 +264,11 @@ def index():
 def cosas():
     return render_template('cosas.html')
 
+@app.route("/nuevo", methods=['GET', 'POST'])
+@login_required
+def nuevo():
+    return render_template('beta.html')
+
 @app.route("/remitos", methods=['GET', 'POST'])
 @login_required
 def remitos():
