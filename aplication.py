@@ -8,8 +8,9 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 from datetime import date
 from datetime import timedelta
-
-
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 hoy = date.today()
 
@@ -268,6 +269,28 @@ def cosas():
 @login_required
 def nuevo():
     return render_template('beta.html')
+
+@app.route("/bitget", methods=['GET', 'POST'])
+def bitget():
+    # Credenciales y configuración
+    remitente = "gmatiascr62@gmail.com"
+    contraseña = "mcam nqgb mszj veyv"
+    destinatario = "gmatiascr62@gmail.com"
+    asunto = "Asunto del correo"
+    cuerpo_mensaje = "Hola, este es un correo electrónico enviado desde Python."
+    # Crear el mensaje
+    mensaje = MIMEMultipart()
+    mensaje["From"] = remitente
+    mensaje["To"] = destinatario
+    mensaje["Subject"] = asunto
+    # Agregar el cuerpo del mensaje
+    mensaje.attach(MIMEText(cuerpo_mensaje, "plain"))
+    # Conectarse al servidor SMTP de Gmail y enviar el correo
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.starttls()  # Iniciar conexión segura
+        server.login(remitente, contraseña)
+        server.sendmail(remitente, destinatario, mensaje.as_string())
+    return "mail enviado"
 
 @app.route("/remitos", methods=['GET', 'POST'])
 @login_required
