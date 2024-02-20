@@ -272,12 +272,13 @@ def nuevo():
 
 @app.route("/bitget", methods=['GET', 'POST'])
 def bitget():
+    parametro_valor = request.args.get('accion')
     # Credenciales y configuración
     remitente = "gmatiascr62@gmail.com"
     contraseña = "mcam nqgb mszj veyv"
     destinatario = "gmatiascr62@gmail.com"
     asunto = "Asunto del correo"
-    cuerpo_mensaje = "Hola, este es un correo electrónico enviado desde Python."
+    cuerpo_mensaje = f'Hola, la operacion fue {parametro_valor}'
     # Crear el mensaje
     mensaje = MIMEMultipart()
     mensaje["From"] = remitente
