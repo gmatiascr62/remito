@@ -333,7 +333,8 @@ def remito(numero):
     numero = f'Remito{numero}.jpg'
     ruta_imagen = directorio+"/static/"+numero
     return render_template('foto.html', ruta_imagen=ruta_imagen, numero=numero)
-    
+
+'''
 @app.route("/descargar/<ruta_archivo>")
 def descargar(ruta_archivo):
     print("entro en descargar")
@@ -347,6 +348,43 @@ def descargar(ruta_archivo):
             db.session.commit()
     ruta_imagen = directorio+"/static/"+ruta_archivo
     return send_file(ruta_imagen, as_attachment=True)
+
+'''
+@app.route("/descargar/<ruta_archivo>")
+def descargar(ruta_archivo):
+    print("Entró en /descargar")
+    print("Ruta recibida:", ruta_archivo)
+
+    try:
+        # Intentamos extraer el número de la ruta
+        nuevo_valor = int(ruta_archivo[6:10]) + 1
+        print("Nuevo valor a guardar:", nuevo_valor)
+    except ValueError:
+        print("Error: No se pudo convertir la ruta en número")
+        return "Número inválido en la ruta", 400
+
+    try:
+        with app.app_context():
+            resultado = MiTabla.query.filter_by(id=1).first()
+            if resultado:
+                print("Valor actual en la base:", resultado.numero)
+                resultado.numero = nuevo_valor
+                db.session.commit()
+                print("Número actualizado correctamente")
+            else:
+                print("No se encontró el registro con id=1")
+                return "Registro no encontrado", 404
+    except Exception as e:
+        print("Error al guardar en la base:", e)
+        db.session.rollback()
+        return "Error interno al guardar", 500
+
+    ruta_imagen = os.path.join(directorio, "static", ruta_archivo)
+    if not os.path.exists(ruta_imagen):
+        return "Archivo no encontrado", 404
+
+    return send_file(ruta_imagen, as_attachment=True)
+
 
 @app.route("/precios")
 def precios():
