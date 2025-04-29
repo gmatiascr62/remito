@@ -372,6 +372,7 @@ def api():
         respuesta = make_response(jsonify({'respuesta': calcular_cono(datos)}, 200))
     return respuesta
 
-#with app.app_context():
-#    db.create_all()
+with app.app_context():
+    db.create_all()
+
 
