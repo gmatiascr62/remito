@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired, Length
 from flask_login import LoginManager, login_user, current_user, login_required, UserMixin
 from PIL import Image, ImageDraw, ImageFont
 from flask_sqlalchemy import SQLAlchemy
+import re
 import os
 from datetime import date
 from datetime import timedelta
@@ -350,18 +351,24 @@ def descargar(ruta_archivo):
     return send_file(ruta_imagen, as_attachment=True)
 
 '''
+
 @app.route("/descargar/<ruta_archivo>")
 def descargar(ruta_archivo):
     print("Entró en /descargar")
     print("Ruta recibida:", ruta_archivo)
 
+    # Buscar número en el nombre del archivo
+    match = re.search(r"(\d+)", ruta_archivo)
+    if not match:
+        print("Error: No se encontró número en la ruta")
+        return "Número inválido en la ruta", 400
+
     try:
-        # Intentamos extraer el número de la ruta
-        nuevo_valor = int(ruta_archivo[6:10]) + 1
+        nuevo_valor = int(match.group(1)) + 1
         print("Nuevo valor a guardar:", nuevo_valor)
     except ValueError:
-        print("Error: No se pudo convertir la ruta en número")
-        return "Número inválido en la ruta", 400
+        print("Error: Número inválido")
+        return "Número inválido", 400
 
     try:
         with app.app_context():
