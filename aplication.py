@@ -12,27 +12,30 @@ from datetime import timedelta
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
-hoy = date.today()
-
+import redis
+                                                
+hoy = date.today()                                            
 anio_s = str(hoy.year)[-2:]
 dia = hoy.day
 if dia < 10 :
     dia = "0"+str(dia)
 mes = hoy.month
 if mes < 10 :
-    mes = "0"+str(mes)
-
+    mes = "0"+str(mes)                                        
 # variables de configuracion
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secrtuky23876213et'
 login = LoginManager(app)
 login.login_view = 'logi'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=50)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('base')
-db = SQLAlchemy(app)
 directorio = os.path.abspath(os.path.dirname(__file__))
-
+client = redis.StrictRedis(
+    host='valkey-254feb4b-gmatiascr62-a717.h.aivencloud.com',
+    port=16879,
+    username='default',
+    password = os.getenv('base'),
+    ssl=True
+)
 
 # precio del material de una rueda de trommel sin tapas y sin iva
 pmrt = 79200
@@ -186,11 +189,12 @@ def calcular_cono(lista):
     resultado = resultado/largo
     return str(round(resultado,2))
 
+'''
 class MiTabla(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     numero = db.Column(db.Integer)
+'''
 
-    
 class User(UserMixin):
     def __init__(self, id):
         self.id = id
@@ -205,9 +209,9 @@ class LoginForm(FlaskForm):
 
 def actual_numero():
     with app.app_context():
-        resultado=MiTabla.query.filter_by(id=1).first()
+        resultado = client.get("mensaje").decode()
         if resultado:
-            valor = resultado.numero
+            valor = int(resultado)
             return valor
         else:
             return "999"
@@ -372,18 +376,16 @@ def descargar(ruta_archivo):
 
     try:
         with app.app_context():
-            resultado = MiTabla.query.filter_by(id=1).first()
+            resultado = actual_numero()
             if resultado:
-                print("Valor actual en la base:", resultado.numero)
-                resultado.numero = nuevo_valor
-                db.session.commit()
+                print("Valor actual en la base:", resultado)
+                client.set("mensaje", f'{nuevo_valor}')
                 print("Número actualizado correctamente")
             else:
                 print("No se encontró el registro con id=1")
                 return "Registro no encontrado", 404
     except Exception as e:
         print("Error al guardar en la base:", e)
-        db.session.rollback()
         return "Error interno al guardar", 500
 
     ruta_imagen = os.path.join(directorio, "static", ruta_archivo)
@@ -419,5 +421,3 @@ def api():
 
 #with app.app_context():
 #    db.create_all()
-
-
