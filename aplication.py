@@ -69,7 +69,7 @@ def escribir(seniores, direc, transp, lugar, cui, iba, remitos, dia, mes, anio, 
     draw.text((550, 726),desc_cinco, font=font20, fill="black")
     draw.text((430, 755),cantidad_seis, font=font20, fill="black")
     draw.text((550, 755),desc_seis, font=font20, fill="black")
-    draw.text((935, 1140),"Vto 31/12/23", font=font22, fill="black")
+    draw.text((935, 1140),"Vto 31/12/25", font=font22, fill="black")
     if iba == 'Responsable inscripto':
         draw.text((713, 465),"x", font=font22, fill="black")
     elif iba == 'Consumidor final':
