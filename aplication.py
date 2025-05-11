@@ -30,9 +30,8 @@ login.login_view = 'logi'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=50)
 directorio = os.path.abspath(os.path.dirname(__file__))
 client = redis.StrictRedis(
-    host='valkey-254feb4b-gmatiascr62-a717.h.aivencloud.com',
-    port=16879,
-    username='default',
+    host='golden-cardinal-12580.upstash.io',
+    port=6379,
     password = os.getenv('base'),
     ssl=True
 )
