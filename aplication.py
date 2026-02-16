@@ -25,12 +25,6 @@ login = LoginManager(app)
 login.login_view = 'logi'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=50)
 directorio = os.path.abspath(os.path.dirname(__file__))
-client = redis.StrictRedis(
-    host='golden-cardinal-12580.upstash.io',
-    port=6379,
-    password = os.getenv('base'),
-    ssl=True
-)
 
 # precio del material de una rueda de trommel sin tapas y sin iva
 pmrt = 79200
@@ -184,12 +178,6 @@ def calcular_cono(lista):
     resultado = resultado/largo
     return str(round(resultado,2))
 
-'''
-class MiTabla(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    numero = db.Column(db.Integer)
-'''
-
 class User(UserMixin):
     def __init__(self, id):
         self.id = id
@@ -211,31 +199,6 @@ def actual_numero():
         else:
             return "999"
 
-class Registro(FlaskForm):
-    remito = StringField('Remito N°', render_kw={'style': 'font-size: 1rem; width: 45px', "size": 4}, validators=[DataRequired(), Length(max=4)])
-    dia = StringField('Dia', render_kw={'style': 'font-size: 1rem; width: 25px' , 'value':dia, "size":2}, validators=[DataRequired(), Length(max=2)])
-    mes = StringField('Mes',render_kw={'style': 'font-size: 1rem; width: 25px','value':mes, "size":2}, validators=[DataRequired(), Length(max=2)])
-    anio = StringField('Año', render_kw={'style': 'font-size: 1rem; width: 25px', 'value':anio_s, "size":2}, validators=[DataRequired(), Length(max=2)])
-    orden = StringField('Orden de compra', render_kw={'style': 'font-size: 1rem'})
-    seniores = StringField('Señores', render_kw={'style': 'font-size: 1rem; width: 170px', 'value':"Cristamine"}, validators=[DataRequired()])
-    direccion = StringField('Direccion', render_kw={'style': 'font-size: 1rem', 'value':"Dardo Rocha 1037"}, validators=[DataRequired()])
-    iva = SelectField('IVA', choices=['Responsable inscripto', 'Consumidor final', 'Exento', 'Responsable monotributista'], render_kw={'style': 'font-size: 1rem'})
-    transportista = StringField('Transportista', render_kw={'style': 'font-size: 1rem; width: 170px', 'value':"Croce"}, validators=[DataRequired()])
-    lugar_entrega = StringField('Lugar de entrega', render_kw={'style': 'font-size: 1rem', 'value':"Dardo Rocha 1073"}, validators=[DataRequired()])
-    cuit = StringField('Cuit', render_kw={'style': 'font-size: 1rem; width: 160px', 'value':"30-50423240-5"}, validators=[DataRequired()])
-    cantidad_uno = StringField('Cantidad', render_kw={'style': 'font-size: 1rem; width: 50%'}, validators=[DataRequired()])
-    desc_uno = StringField('Descripcion', render_kw={'style': 'font-size: 1rem; width: 100%'}, validators=[DataRequired()])
-    cantidad_dos = StringField('Cantidad', render_kw={'style': 'font-size: 1rem; width: 50%'})
-    desc_dos = StringField('Descripcion', render_kw={'style': 'font-size: 1rem; width: 100%'})
-    cantidad_tres = StringField('Cantidad', render_kw={'style': 'font-size: 1rem; width: 50%'})
-    desc_tres = StringField('Descripcion', render_kw={'style': 'font-size: 1rem; width: 100%'})
-    cantidad_cuatro = StringField('Cantidad', render_kw={'style': 'font-size: 1rem; width: 50%'})
-    desc_cuatro = StringField('Descripcion', render_kw={'style': 'font-size: 1rem; width: 100%'})
-    cantidad_cinco = StringField('Cantidad', render_kw={'style': 'font-size: 1rem; width: 50%'})
-    desc_cinco = StringField('Descripcion', render_kw={'style': 'font-size: 1rem; width: 100%'})
-    cantidad_seis = StringField('Cantidad', render_kw={'style': 'font-size: 1rem; width: 50%'})
-    desc_seis = StringField('Descripcion', render_kw={'style': 'font-size: 1rem; width: 100%'})
-    submit = SubmitField('Generar', render_kw={'style': 'font-size: 1.5rem'})
 
 @app.route("/login", methods=['GET', 'POST'])
 def logi():
@@ -269,125 +232,6 @@ def cosas():
 @login_required
 def nuevo():
     return render_template('beta.html')
-
-@app.route("/bitget", methods=['GET', 'POST'])
-def bitget():
-    parametro_valor = request.args.get('accion')
-    # Credenciales y configuración
-    remitente = "gmatiascr62@gmail.com"
-    contraseña = "mcam nqgb mszj veyv"
-    destinatario = "gmatiascr62@gmail.com"
-    asunto = "Asunto del correo"
-    cuerpo_mensaje = f'Hola, la operacion fue {parametro_valor}'
-    # Crear el mensaje
-    mensaje = MIMEMultipart()
-    mensaje["From"] = remitente
-    mensaje["To"] = destinatario
-    mensaje["Subject"] = asunto
-    # Agregar el cuerpo del mensaje
-    mensaje.attach(MIMEText(cuerpo_mensaje, "plain"))
-    # Conectarse al servidor SMTP de Gmail y enviar el correo
-    with smtplib.SMTP("smtp.gmail.com", 587) as server:
-        server.starttls()  # Iniciar conexión segura
-        server.login(remitente, contraseña)
-        server.sendmail(remitente, destinatario, mensaje.as_string())
-    return "mail enviado"
-
-@app.route("/remitos", methods=['GET', 'POST'])
-@login_required
-def remitos():
-    valor_predeterminado = actual_numero()
-    form = Registro(remito=valor_predeterminado)
-    if form.validate_on_submit():
-        remit = form.remito.data
-        dia = form.dia.data
-        mes = form.mes.data
-        anio = form.anio.data
-        senior = form.seniores.data
-        dire = form.direccion.data
-        transporte = form.transportista.data
-        lugar = form.lugar_entrega.data
-        cui = form.cuit.data
-        iva = form.iva.data
-        orden = form.orden.data
-        cantidad = form.cantidad_uno.data
-        desc = form.desc_uno.data
-        cantidad_dos = form.cantidad_dos.data
-        desc_dos = form.desc_dos.data
-        cantidad_tres = form.cantidad_tres.data
-        desc_tres = form.desc_tres.data
-        cantidad_cuatro = form.cantidad_cuatro.data
-        desc_cuatro = form.desc_cuatro.data
-        cantidad_cinco = form.cantidad_cinco.data
-        desc_cinco = form.desc_cinco.data
-        cantidad_seis = form.cantidad_seis.data
-        desc_seis = form.desc_seis.data
-        escribir(senior, dire, transporte, lugar, cui, iva, remit, dia, mes, anio, orden, cantidad, desc, cantidad_dos, desc_dos, cantidad_tres, desc_tres, cantidad_cuatro, desc_cuatro, cantidad_cinco,desc_cinco, cantidad_seis, desc_seis)
-        return redirect(url_for('remito', numero=remit))
-    return render_template('remitos.html', form=form)
-
-
-@app.route("/remito/<numero>")
-@login_required
-def remito(numero):
-    numero = f'Remito{numero}.jpg'
-    ruta_imagen = directorio+"/static/"+numero
-    return render_template('foto.html', ruta_imagen=ruta_imagen, numero=numero)
-
-'''
-@app.route("/descargar/<ruta_archivo>")
-def descargar(ruta_archivo):
-    print("entro en descargar")
-    print(ruta_archivo)
-    with app.app_context():
-        resultado=MiTabla.query.filter_by(id=1).first()
-        if resultado:
-            print(resultado.numero)
-            resultado.numero = int(ruta_archivo[6:10])+1
-            print(resultado.numero)
-            db.session.commit()
-    ruta_imagen = directorio+"/static/"+ruta_archivo
-    return send_file(ruta_imagen, as_attachment=True)
-
-'''
-
-@app.route("/descargar/<ruta_archivo>")
-def descargar(ruta_archivo):
-    print("Entró en /descargar")
-    print("Ruta recibida:", ruta_archivo)
-
-    # Buscar número en el nombre del archivo
-    match = re.search(r"(\d+)", ruta_archivo)
-    if not match:
-        print("Error: No se encontró número en la ruta")
-        return "Número inválido en la ruta", 400
-
-    try:
-        nuevo_valor = int(match.group(1)) + 1
-        print("Nuevo valor a guardar:", nuevo_valor)
-    except ValueError:
-        print("Error: Número inválido")
-        return "Número inválido", 400
-
-    try:
-        with app.app_context():
-            resultado = actual_numero()
-            if resultado:
-                print("Valor actual en la base:", resultado)
-                client.set("mensaje", f'{nuevo_valor}')
-                print("Número actualizado correctamente")
-            else:
-                print("No se encontró el registro con id=1")
-                return "Registro no encontrado", 404
-    except Exception as e:
-        print("Error al guardar en la base:", e)
-        return "Error interno al guardar", 500
-
-    ruta_imagen = os.path.join(directorio, "static", ruta_archivo)
-    if not os.path.exists(ruta_imagen):
-        return "Archivo no encontrado", 404
-
-    return send_file(ruta_imagen, as_attachment=True)
 
 
 @app.route("/precios")
