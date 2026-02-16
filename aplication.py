@@ -9,10 +9,6 @@ import re
 import os
 from datetime import date
 from datetime import timedelta
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-import redis
                                                 
 hoy = date.today()                                            
 anio_s = str(hoy.year)[-2:]
